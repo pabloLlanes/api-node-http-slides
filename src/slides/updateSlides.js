@@ -129,69 +129,21 @@ PUT /api/users/64f1a2b3  +  JSON body`
     ),
   },
   {
-    id: 'preflight',
-    slot: 'preflight',
-    zone: 'network',
-    title: t('El navegador pide permiso (preflight)', 'The browser asks permission (preflight)'),
-    what: t(
-      [
-        'React y la API están en orígenes distintos, y `PUT` no es un método "simple".',
-        'El navegador manda antes un **OPTIONS** para pedir permiso.',
-        'El middleware cors() responde `204` con los métodos y headers permitidos.',
-        'Recién ahí viaja el PUT real.',
-      ],
-      [
-        'React and the API are on different origins, and `PUT` is not a "simple" method.',
-        'The browser first sends an **OPTIONS** to ask permission.',
-        'The cors() middleware answers `204` with the allowed methods and headers.',
-        'Only then does the real PUT travel.',
-      ]
-    ),
-    http: `OPTIONS /api/users/64f1a2b3 HTTP/1.1
-Origin: http://localhost:5173
-Access-Control-Request-Method: PUT
-Access-Control-Request-Headers: content-type
-
-HTTP/1.1 204 No Content
-Access-Control-Allow-Origin: *
-Access-Control-Allow-Methods: GET,POST,PUT,DELETE
-Access-Control-Allow-Headers: content-type`,
-    codeLang: 'javascript',
-    code: t(
-      `// cors() detecta el OPTIONS y lo responde directo:
-import cors from 'cors';
-app.use(cors());
-
-// Qué hace que un pedido NO sea "simple" (y dispare preflight):
-//  - método PUT, PATCH o DELETE
-//  - header Content-Type: application/json
-//  - headers propios (como Authorization)`,
-      `// cors() detects the OPTIONS and answers it directly:
-import cors from 'cors';
-app.use(cors());
-
-// What makes a request NOT "simple" (and trigger preflight):
-//  - PUT, PATCH or DELETE method
-//  - Content-Type: application/json header
-//  - custom headers (like Authorization)`
-    ),
-  },
-  {
     id: 'request',
     slot: 'request',
     zone: 'network',
-    title: t('Viaja la petición real', 'The real request travels'),
+    title: t('La petición viaja', 'The request travels'),
     what: t(
       [
         'Viaja el PUT como **texto**: la ruta lleva el id y el body, los datos nuevos.',
         '`Content-Type: application/json` indica cómo leer el body.',
-        'Es la misma conexión TCP del preflight.',
+        'Viaja por una conexión TCP; con `https` iría cifrada.',
         'En producción, por `https`, todo esto iría cifrado.',
       ],
       [
         'The PUT travels as **text**: the path carries the id and the body, the new data.',
         '`Content-Type: application/json` says how to read the body.',
-        'It is the same TCP connection as the preflight.',
+        'It travels over a TCP connection; with `https` it would be encrypted.',
         'In production, over `https`, all of this would be encrypted.',
       ]
     ),

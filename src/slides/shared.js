@@ -21,13 +21,12 @@ export const zones = {
 export const GRID_X = 1750;
 export const GRID_Y = 1300;
 
-// Posición de cada estación según su "slot". Las presentaciones que no usan un
-// slot (por ejemplo GET no tiene preflight) simplemente no lo incluyen.
+// Posición de cada estación según su "slot" (quedó del layout anterior;
+// la presentación actual no la usa, pero no molesta).
 export const SLOT_POS = {
   intro: [-1.6, 0.5],
   what: [0, 0],
   'client-send': [1, 0],
-  preflight: [2, 0],
   request: [3, 0],
   'express-in': [4.3, 0],
   middlewares: [5.3, 0],

@@ -139,70 +139,22 @@ POST /api/users  +  JSON body`
     ),
   },
   {
-    id: 'preflight',
-    slot: 'preflight',
-    zone: 'network',
-    title: t('El navegador pide permiso (preflight)', 'The browser asks permission (preflight)'),
-    what: t(
-      [
-        'React (puerto 5173) y la API (puerto 3000) son **orígenes distintos**: es CORS.',
-        'Como el POST manda JSON, no es un pedido "simple": el navegador envía antes un **OPTIONS**.',
-        'Pregunta: "¿permitís POST con el header Content-Type desde este origen?".',
-        'El middleware cors() responde `204` con los permisos. Recién ahí viaja el POST real.',
-      ],
-      [
-        'React (port 5173) and the API (port 3000) are **different origins**: this is CORS.',
-        'Since the POST sends JSON, it is not a "simple" request: the browser first sends an **OPTIONS**.',
-        'It asks: "do you allow POST with the Content-Type header from this origin?".',
-        'The cors() middleware answers `204` with the permissions. Only then does the real POST travel.',
-      ]
-    ),
-    http: `OPTIONS /api/users HTTP/1.1
-Origin: http://localhost:5173
-Access-Control-Request-Method: POST
-Access-Control-Request-Headers: content-type
-
-HTTP/1.1 204 No Content
-Access-Control-Allow-Origin: *
-Access-Control-Allow-Methods: GET,POST,PUT,DELETE
-Access-Control-Allow-Headers: content-type`,
-    codeLang: 'javascript',
-    code: t(
-      `// En el servidor, una sola línea habilita CORS y responde el preflight:
-import cors from 'cors';
-app.use(cors());
-
-// Si comparten origen (proxy de Vite),
-// este preflight no existe:
-//  // vite.config.js
-//   server: { proxy: { '/api': 'http://localhost:3000' } }`,
-      `// On the server, one line enables CORS and answers the preflight:
-import cors from 'cors';
-app.use(cors());
-
-// If they share an origin (Vite proxy),
-// this preflight does not happen:
-//  // vite.config.js
-//   server: { proxy: { '/api': 'http://localhost:3000' } }`
-    ),
-  },
-  {
     id: 'request',
     slot: 'request',
     zone: 'network',
-    title: t('Viaja la petición real', 'The real request travels'),
+    title: t('La petición viaja', 'The request travels'),
     what: t(
       [
-        'Ahora sí viaja el POST, como **texto**: línea de inicio, headers, línea vacía y body.',
+        'El POST viaja como **texto**: línea de inicio, headers, línea vacía y body.',
         '`Content-Type: application/json` le avisa al servidor cómo leer el body.',
         '`Content-Length` dice cuántos bytes ocupa el body.',
-        'Es la misma conexión TCP; con `https` además iría cifrado.',
+        'Viaja por una conexión TCP; con `https` además iría cifrado.',
       ],
       [
-        'Now the POST travels, as **text**: start line, headers, empty line and body.',
+        'The POST travels as **text**: start line, headers, empty line and body.',
         '`Content-Type: application/json` tells the server how to read the body.',
         '`Content-Length` says how many bytes the body takes.',
-        'It is the same TCP connection; with `https` it would also be encrypted.',
+        'It travels over a TCP connection; with `https` it would also be encrypted.',
       ]
     ),
     http: `POST /api/users HTTP/1.1

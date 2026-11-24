@@ -120,64 +120,22 @@ DELETE /api/users/64f1a2b3`
     ),
   },
   {
-    id: 'preflight',
-    slot: 'preflight',
-    zone: 'network',
-    title: t('El navegador pide permiso (preflight)', 'The browser asks permission (preflight)'),
-    what: t(
-      [
-        'Aunque no mande body, `DELETE` **no** es un método "simple".',
-        'Por eso el navegador manda antes un **OPTIONS** para pedir permiso.',
-        'El middleware cors() responde `204` con los métodos permitidos.',
-        'Recién ahí viaja el DELETE real.',
-      ],
-      [
-        'Even without a body, `DELETE` is **not** a "simple" method.',
-        'So the browser first sends an **OPTIONS** to ask permission.',
-        'The cors() middleware answers `204` with the allowed methods.',
-        'Only then does the real DELETE travel.',
-      ]
-    ),
-    http: `OPTIONS /api/users/64f1a2b3 HTTP/1.1
-Origin: http://localhost:5173
-Access-Control-Request-Method: DELETE
-
-HTTP/1.1 204 No Content
-Access-Control-Allow-Origin: *
-Access-Control-Allow-Methods: GET,POST,PUT,DELETE`,
-    codeLang: 'javascript',
-    code: t(
-      `// cors() responde el preflight por nosotros:
-import cors from 'cors';
-app.use(cors());
-
-// Para permitir solo tu frontend (más seguro que '*'):
-app.use(cors({ origin: 'http://localhost:5173' }));`,
-      `// cors() answers the preflight for us:
-import cors from 'cors';
-app.use(cors());
-
-// To allow only your frontend (safer than '*'):
-app.use(cors({ origin: 'http://localhost:5173' }));`
-    ),
-  },
-  {
     id: 'request',
     slot: 'request',
     zone: 'network',
-    title: t('Viaja la petición real', 'The real request travels'),
+    title: t('La petición viaja', 'The request travels'),
     what: t(
       [
         'Viaja el DELETE como **texto**: el método, la ruta con el id y los headers.',
         'No hay `Content-Type` ni `Content-Length`: no se envía body.',
         'Termina con una línea vacía, sin nada después.',
-        'Es la misma conexión TCP del preflight.',
+        'Viaja por una conexión TCP; con `https` iría cifrada.',
       ],
       [
         'The DELETE travels as **text**: the method, the path with the id and the headers.',
         'There is no `Content-Type` or `Content-Length`: no body is sent.',
         'It ends with an empty line, with nothing after it.',
-        'It is the same TCP connection as the preflight.',
+        'It travels over a TCP connection; with `https` it would be encrypted.',
       ]
     ),
     http: `DELETE /api/users/64f1a2b3 HTTP/1.1

@@ -148,13 +148,13 @@ GET /api/users?page=1&limit=2`
       [
         'El navegador escribe la petición como **texto**: línea de inicio y headers.',
         '`Accept` dice qué formatos acepta de vuelta; `Origin`, desde qué página sale.',
-        'Es un GET "simple": no necesita preflight, viaja directo.',
+        'Un GET solo pide datos: viaja directo, sin pasos extra.',
         'Termina con una línea vacía y **sin body**.',
       ],
       [
         'The browser writes the request as **text**: start line and headers.',
         '`Accept` says which formats it accepts back; `Origin`, which page it comes from.',
-        'It is a "simple" GET: no preflight needed, it goes straight.',
+        'A GET only asks for data: it goes straight, no extra steps.',
         'It ends with an empty line and **no body**.',
       ]
     ),
