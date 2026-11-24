@@ -1,0 +1,493 @@
+/* src/components/Presentation/Presentation.module.css
+   Presentación normal a pantalla completa (sin escalado): cada paso llena la
+   ventana y el código se dimensiona en píxeles reales (se calcula en JS para
+   que siempre sea lo más grande posible). Nada se encoge por zoom. */
+
+.page {
+  --accent: #6bb6ff;
+  position: fixed;
+  inset: 0;
+  display: flex;
+  flex-direction: column;
+  font-family: 'Roboto Mono', monospace;
+  color: #c9d1d9;
+  background:
+    radial-gradient(ellipse at 25% 12%, rgba(31, 111, 235, 0.12), transparent 60%),
+    radial-gradient(ellipse at 85% 88%, rgba(46, 160, 67, 0.1), transparent 60%),
+    #05080d;
+}
+
+/* Zona donde vive el paso actual (entre el botón de arriba y la barra de abajo) */
+.viewport {
+  flex: 1;
+  min-height: 0;
+  display: flex;
+  padding: 58px 18px 74px;
+}
+
+.fade {
+  flex: 1;
+  min-height: 0;
+  display: flex;
+  animation: fadeIn 0.35s ease;
+}
+
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+    transform: translateY(8px);
+  }
+  to {
+    opacity: 1;
+    transform: none;
+  }
+}
+
+/* ───────────── Un paso ───────────── */
+.slide {
+  --zone: #6bb6ff;
+  flex: 1;
+  min-width: 0;
+  min-height: 0;
+  max-width: 1760px;
+  margin: 0 auto;
+  box-sizing: border-box;
+  display: flex;
+  flex-direction: column;
+  padding: 18px 26px 22px;
+  background: rgba(13, 17, 23, 0.94);
+  border: 2px solid var(--zone);
+  border-radius: 16px;
+  box-shadow: 0 0 60px color-mix(in srgb, var(--zone) 22%, transparent);
+}
+
+/* Header: zona · título · método, en una línea */
+.slideHeader {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  margin-bottom: 12px;
+  flex: none;
+}
+
+.zoneTag {
+  flex: none;
+  color: var(--zone);
+  border: 1px solid var(--zone);
+  border-radius: 999px;
+  padding: 3px 14px;
+  font-size: clamp(12px, 1vw, 16px);
+  letter-spacing: 1px;
+}
+
+.methodTag {
+  flex: none;
+  margin-left: auto;
+  color: var(--accent);
+  font-size: clamp(13px, 1.1vw, 17px);
+  font-weight: 700;
+  letter-spacing: 2px;
+  opacity: 0.85;
+}
+
+.slideHeader h2 {
+  margin: 0;
+  font-size: clamp(20px, 2.4vw, 36px);
+  line-height: 1.1;
+  color: var(--zone);
+  text-shadow: 0 0 16px color-mix(in srgb, var(--zone) 45%, transparent);
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.slide h3 {
+  margin: 0 0 6px;
+  font-size: clamp(10px, 0.9vw, 13px);
+  font-weight: 400;
+  letter-spacing: 2px;
+  text-transform: uppercase;
+  color: #8b949e;
+}
+
+/* Franja compacta arriba: qué pasa (izq) + HTTP (der) */
+.topStrip {
+  flex: none;
+  display: grid;
+  grid-template-columns: minmax(0, 1.05fr) minmax(0, 0.95fr);
+  gap: 22px;
+  margin-bottom: 12px;
+  max-height: 26vh;
+}
+
+.whatBox {
+  min-width: 0;
+  overflow: hidden;
+}
+
+.whatBox ul {
+  margin: 0;
+  padding-left: 1.1em;
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+
+.whatBox li {
+  font-size: clamp(13px, 1.25vw, 19px);
+  line-height: 1.3;
+}
+
+.whatBox li::marker {
+  color: var(--zone);
+}
+
+.whatBox code,
+.introText code {
+  font-family: inherit;
+  font-size: 0.9em;
+  color: #fff;
+  background: rgba(255, 255, 255, 0.09);
+  border-radius: 4px;
+  padding: 1px 6px;
+}
+
+.whatBox strong {
+  color: #fff;
+}
+
+.whatBox em {
+  color: var(--zone);
+  font-style: italic;
+}
+
+.httpBox {
+  display: flex;
+  flex-direction: column;
+  min-width: 0;
+  min-height: 0;
+}
+
+.httpBox pre {
+  flex: 1;
+  border: 1px solid color-mix(in srgb, var(--zone) 35%, #30363d);
+}
+
+/* Código: la estrella, a todo el ancho y al máximo tamaño real */
+.codeBox {
+  flex: 1;
+  min-height: 0;
+  display: flex;
+  flex-direction: column;
+}
+
+.codeArea {
+  flex: 1;
+  min-height: 0;
+  overflow: auto;
+  border: 1px solid #30363d;
+  border-radius: 8px;
+  box-shadow: inset 0 0 40px rgba(0, 0, 0, 0.4);
+}
+
+.codeArea pre {
+  border: none !important;
+}
+
+/* ───────────── Portada ───────────── */
+.introSlide {
+  --zone: var(--accent);
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+  padding: clamp(24px, 5vh, 64px);
+}
+
+.kicker {
+  color: #8b949e;
+  letter-spacing: 3px;
+  font-size: clamp(13px, 1.3vw, 18px);
+}
+
+.introSlide h1 {
+  margin: clamp(14px, 2.5vh, 24px) 0;
+  font-size: clamp(40px, 6vw, 80px);
+  line-height: 1.1;
+  color: var(--accent);
+  text-shadow: 0 0 12px color-mix(in srgb, var(--accent) 70%, transparent),
+    0 0 34px color-mix(in srgb, var(--accent) 40%, transparent);
+}
+
+.introText {
+  max-width: 1040px;
+  margin: 0 auto 28px;
+  color: #aeb8c2;
+  font-size: clamp(16px, 1.8vw, 26px);
+  line-height: 1.6;
+}
+
+.introExample {
+  display: inline-block;
+  font-family: inherit;
+  font-size: clamp(16px, 1.9vw, 28px);
+  color: #fff;
+  background: #0b0f14;
+  border: 1px solid #30363d;
+  border-radius: 8px;
+  padding: 12px 24px;
+}
+
+.introZones {
+  list-style: none;
+  margin: clamp(22px, 4vh, 40px) 0 28px;
+  padding: 0;
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 44px;
+  font-size: clamp(12px, 1.1vw, 16px);
+}
+
+.introZones li {
+  position: relative;
+  border: 1px solid var(--zone);
+  color: var(--zone);
+  border-radius: 8px;
+  padding: 9px 15px;
+}
+
+.introZones li + li::before {
+  content: '→';
+  position: absolute;
+  left: -29px;
+  top: 50%;
+  transform: translateY(-50%);
+  color: #8b949e;
+}
+
+.keys {
+  margin: 0;
+  color: #8b949e;
+  font-size: clamp(13px, 1.1vw, 17px);
+}
+
+/* ───────────── Ver todo (grilla de pasos) ───────────── */
+.overview {
+  flex: 1;
+  min-height: 0;
+  display: flex;
+  flex-direction: column;
+  max-width: 1500px;
+  margin: 0 auto;
+  width: 100%;
+}
+
+.overviewHead {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: 20px;
+  margin-bottom: 18px;
+}
+
+.overviewHead h2 {
+  margin: 0 0 6px;
+  color: var(--accent);
+  font-size: clamp(20px, 2.2vw, 32px);
+}
+
+.overviewHead p {
+  margin: 0;
+  color: #aeb8c2;
+  font-size: clamp(13px, 1.2vw, 17px);
+  max-width: 1100px;
+}
+
+.ghostBtn {
+  flex: none;
+  font-family: inherit;
+  color: #c9d1d9;
+  background: rgba(0, 0, 0, 0.5);
+  border: 1px solid #30363d;
+  border-radius: 6px;
+  padding: 8px 14px;
+  cursor: pointer;
+}
+
+.ghostBtn:hover {
+  border-color: var(--accent);
+}
+
+.overviewGrid {
+  flex: 1;
+  min-height: 0;
+  overflow: auto;
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(230px, 1fr));
+  gap: 14px;
+  align-content: start;
+}
+
+.ovCard {
+  --zone: #6bb6ff;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 6px;
+  text-align: left;
+  font-family: inherit;
+  color: #c9d1d9;
+  background: rgba(13, 17, 23, 0.9);
+  border: 1px solid color-mix(in srgb, var(--zone) 45%, transparent);
+  border-left: 4px solid var(--zone);
+  border-radius: 10px;
+  padding: 14px 16px;
+  cursor: pointer;
+  transition: transform 0.15s ease, box-shadow 0.15s ease;
+}
+
+.ovCard:hover {
+  transform: translateY(-3px);
+  box-shadow: 0 6px 20px color-mix(in srgb, var(--zone) 30%, transparent);
+}
+
+.ovCard strong {
+  font-size: 15px;
+  color: #fff;
+}
+
+.ovNum {
+  font-size: 12px;
+  font-weight: 700;
+  color: var(--zone);
+}
+
+.ovZone {
+  font-size: 11px;
+  color: #8b949e;
+}
+
+/* ───────────── Controles ───────────── */
+.backButton,
+.toggleButton {
+  position: fixed;
+  top: 14px;
+  z-index: 1000;
+  background: rgba(0, 0, 0, 0.6);
+  color: #fff;
+  border: 1px solid color-mix(in srgb, var(--accent) 70%, #30363d);
+  border-radius: 4px;
+  padding: 7px 13px;
+  font-family: inherit;
+  font-size: 0.9rem;
+  cursor: pointer;
+  transition: background-color 0.2s ease, box-shadow 0.2s ease;
+}
+
+.backButton {
+  left: 14px;
+}
+
+.toggleButton {
+  right: 14px;
+}
+
+.backButton:hover,
+.toggleButton:hover {
+  background: color-mix(in srgb, var(--accent) 20%, rgba(0, 0, 0, 0.6));
+  box-shadow: 0 0 15px color-mix(in srgb, var(--accent) 60%, transparent);
+}
+
+.navBar {
+  flex: none;
+  background: rgba(5, 8, 13, 0.92);
+  border-top: 1px solid #30363d;
+}
+
+.progress {
+  height: 3px;
+  background: #161b22;
+}
+
+.progress div {
+  height: 100%;
+  background: linear-gradient(90deg, #6bb6ff, #00d8ff, #56d364, #00ff99);
+  transition: width 0.4s ease;
+}
+
+.navInner {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 9px 16px;
+}
+
+.navInner button {
+  flex: none;
+  font-family: inherit;
+  font-size: 0.85rem;
+  color: #c9d1d9;
+  background: rgba(0, 0, 0, 0.5);
+  border: 1px solid #30363d;
+  border-radius: 6px;
+  padding: 7px 12px;
+  cursor: pointer;
+}
+
+.navInner button:hover:not(:disabled) {
+  border-color: var(--accent);
+}
+
+.navInner button:disabled {
+  opacity: 0.35;
+  cursor: not-allowed;
+}
+
+.overviewButton {
+  color: #c9d1d9;
+}
+
+.navInner .nextButton {
+  color: #05080d;
+  background: var(--accent);
+  border-color: var(--accent);
+  font-weight: 700;
+}
+
+.caption {
+  flex: 1;
+  min-width: 0;
+  display: flex;
+  align-items: baseline;
+  gap: 12px;
+  font-size: 0.88rem;
+}
+
+.counter {
+  flex: none;
+  color: #8b949e;
+}
+
+.captionText {
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+@media (max-width: 640px) {
+  .topStrip {
+    grid-template-columns: minmax(0, 1fr);
+    max-height: 30vh;
+  }
+
+  .navInner {
+    flex-wrap: wrap;
+  }
+
+  .caption {
+    order: -1;
+    flex-basis: 100%;
+  }
+}
